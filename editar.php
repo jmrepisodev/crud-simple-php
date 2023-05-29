@@ -10,7 +10,7 @@ if(!empty($_GET['edit_id']) && is_numeric($_GET["edit_id"]))
 		$stmt_edit = $dbh->prepare('SELECT * FROM coches WHERE id =:uid');
 		$stmt_edit->execute(array(':uid'=>$id));
 		$edit_row = $stmt_edit->fetch(PDO::FETCH_ASSOC);
-		//crea pares clave-valor. Los nombres de variables corresponden a los nombres de las columnas de la base de datos
+		//Convierte cada elemento de un array en variables. Toma los índices asociativos de dicho array para nombrar las variables 
 		extract($edit_row);
 	}catch(PDOException $e) {
 		$errores[]= $e->getMessage();
@@ -143,7 +143,7 @@ if(isset($_POST['btn_update']))
       </tr>
       <tr>
         <td><label class="control-label">Imágen.</label></td>
-        <td><p><img src="./imagenes/<?php echo $edit_row['imagen']; ?>" height="150" width="150" /></p>
+        <td><p><img class="img-fluid img-thumbnail" src="./imagenes/<?php echo $edit_row['imagen']; ?>" height="150" width="150" /></p>
           <input class="input-group" type="file" name="imagen" accept="image/*" /></td>
       </tr>
       <tr>
@@ -153,6 +153,7 @@ if(isset($_POST['btn_update']))
 		</td>
       </tr>
     </table>
+	<input type="hidden" name="edit_id" value="<?php echo $edit_row['id']; ?>">
   </form>
  
 </div>

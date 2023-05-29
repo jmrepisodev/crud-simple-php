@@ -42,7 +42,7 @@ require_once 'conexion.php';
 				?>
 						<div class="col-xs-3">
 							<p class="page-header"><?php echo $row['marca']."&nbsp;/&nbsp;".$row['modelo']; ?></p>
-							<img src="./imagenes/<?php echo $row['imagen']; ?>" class="img-rounded" width="240px" height="240px" />
+							<img src="./imagenes/<?php echo $row['imagen']; ?>" class="img-fluid img-thumbnail" width="240px" height="240px"/>
 							<p class="page-header"> 
 								<span> 
 									<a class="btn btn-info" href="./editar.php?edit_id=<?php echo $row['id']; ?>" title="click for edit" onclick="return confirm('¿Esta seguro de editar el archivo ?')"><span class="glyphicon glyphicon-edit"></span> Editar</a> 
