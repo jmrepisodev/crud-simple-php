@@ -38,13 +38,18 @@
 		{
 			$upload_dir = './imagenes/'; // upload directory
 	
+			//La función pathinfo devuelve info sobre la ruta de un archivo (directorio, nombre, extensión, etc)
+			//$path_parts = pathinfo($nombreArchivo);
+			
 			$imgExt = strtolower(pathinfo($imgFile,PATHINFO_EXTENSION)); // get image extension
+			$imgName = strtolower(pathinfo($imgFile, PATHINFO_FILENAME)); //get name
+			
 		
 			// valid image extensions
 			$valid_extensions = array('jpeg', 'jpg', 'png', 'gif'); // valid extensions
 		
 			// rename uploading image
-			$imagen = rand(1000,1000000).".".$imgExt;
+			$imagen = $imgName."_".rand(1000,1000000).".".$imgExt; //nombre aleatorio
 				
 			// allow valid image file formats
 			if(in_array($imgExt, $valid_extensions)){			
@@ -90,7 +95,7 @@
 <html lang="es">
 	<head>
 		<meta charset="utf-8">
-		<title>Subir, Insertar, Actualizar, Borrar una imágen usando PHP y MySQL</title>
+		<title>CRUD simple PHP con imágenes</title>
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
 		<!-- Optional theme -->
@@ -100,49 +105,49 @@
 	</head>
 	<body>
 		<div class="navbar navbar-default navbar-static-top" role="navigation">
-		<div class="container">
-			<div class="navbar-header"> <a class="navbar-brand" href="index.php" title='Inicio' target="_blank">Inicio</a> </div>
-		</div>
-		</div>
-		<div class="container">
-		<div class="page-header">
-			<h1 class="h3">Agregar nueva imágen. <a class="btn btn-default" href="index.php"> <span class="glyphicon glyphicon-eye-open"></span> &nbsp; Mostrar todo </a></h1>
-		</div>
-		<?php
-			if(isset($errMSG)){
-		?>
-			<div class="alert alert-danger"> 
-				<span class="glyphicon glyphicon-info-sign"></span> <strong><?php echo $errMSG; ?></strong> 
+			<div class="container">
+				<div class="navbar-header"> <a class="navbar-brand" href="index.php" title='Inicio' target="_blank">Inicio</a> </div>
 			</div>
-		<?php
-			}
-			else if(isset($successMSG)){
-		?>
-			<div class="alert alert-success"> 
-				<strong><span class="glyphicon glyphicon-info-sign"></span> <?php echo $successMSG; ?></strong> 
+		</div>
+		<div class="container">
+			<div class="page-header">
+				<h1 class="h3">Agregar nueva imágen. <a class="btn btn-default" href="./index.php"> <span class="glyphicon glyphicon-eye-open"></span> &nbsp; Mostrar todo </a></h1>
 			</div>
-		<?php
-			}
-		?>
-		<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
-			<table class="table table-bordered table-responsive">
-				<tr>
-					<td><label class="control-label">Marca</label></td>
-					<td><input class="form-control" type="text" name="marca" placeholder="Ingrese la Marca"  /></td>
-				</tr>
-				<tr>
-					<td><label class="control-label">Modelo</label></td>
-					<td><input class="form-control" type="text" name="tipo" placeholder="Ingrese el Modelo"  /></td>
-				</tr>
-				<tr>
-					<td><label class="control-label">Imagen.</label></td>
-					<td><input class="input-group" type="file" name="imagen" accept="image/*" /></td>
-				</tr>
-				<tr>
-					<td colspan="2"><button type="submit" name="btnsave" class="btn btn-default"> <span class="glyphicon glyphicon-save"></span> &nbsp; Guardar Imagen </button></td>
-				</tr>
-			</table>
-		</form>
+			<?php
+				if(isset($errMSG)){
+			?>
+				<div class="alert alert-danger"> 
+					<span class="glyphicon glyphicon-info-sign"></span> <strong><?php echo $errMSG; ?></strong> 
+				</div>
+			<?php
+				}
+				else if(isset($successMSG)){
+			?>
+				<div class="alert alert-success"> 
+					<strong><span class="glyphicon glyphicon-info-sign"></span> <?php echo $successMSG; ?></strong> 
+				</div>
+			<?php
+				}
+			?>
+			<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
+				<table class="table table-bordered table-responsive">
+					<tr>
+						<td><label class="control-label">Marca</label></td>
+						<td><input class="form-control" type="text" name="marca" placeholder="Ingrese la Marca"  /></td>
+					</tr>
+					<tr>
+						<td><label class="control-label">Modelo</label></td>
+						<td><input class="form-control" type="text" name="tipo" placeholder="Ingrese el Modelo"  /></td>
+					</tr>
+					<tr>
+						<td><label class="control-label">Imagen.</label></td>
+						<td><input class="input-group" type="file" name="imagen" accept="image/*" /></td>
+					</tr>
+					<tr>
+						<td colspan="2"><button type="submit" name="btnsave" class="btn btn-default"> <span class="glyphicon glyphicon-save"></span> &nbsp; Guardar Imagen </button></td>
+					</tr>
+				</table>
+			</form>
 		</div>
 
 	<!-- Latest compiled and minified JavaScript --> 

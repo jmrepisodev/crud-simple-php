@@ -21,12 +21,21 @@ else
 	header("Location: index.php");
 }	
 
+/*
+	* función de filtrado
+	*/
+	function filtrado($datos){
+		$datos = trim($datos); // Elimina espacios antes y después de los datos
+		$datos = stripslashes($datos); // Elimina backslashes \
+		$datos = htmlspecialchars($datos); // Traduce caracteres especiales en entidades HTML
+		return $datos;
+	}
 
 
 if(isset($_POST['btn_update']))
 {
-	$marca = $_POST['marca'];
-	$tipo = $_POST['tipo'];
+	$marca = filtrado($_POST['marca']);
+	$tipo = filtrado($_POST['tipo']);
 		
 	$imgFile = $_FILES['imagen']['name'];
 	$tmp_dir = $_FILES['imagen']['tmp_name'];
@@ -37,8 +46,13 @@ if(isset($_POST['btn_update']))
 	{
 		$upload_dir = './imagenes/'; // upload directory	
 		$imgExt = strtolower(pathinfo($imgFile,PATHINFO_EXTENSION)); // get image extension
+		$imgName = strtolower(pathinfo($imgFile, PATHINFO_FILENAME)); //get name
+			
+		// valid image extensions
 		$valid_extensions = array('jpeg', 'jpg', 'png', 'gif'); // valid extensions
-		$imagen = rand(1000,1000000).".".$imgExt; //nombre aleatorio
+	
+		// rename uploading image
+		$imagen = $imgName."_".rand(1000,1000000).".".$imgExt; //nombre aleatorio
 
 		if(in_array($imgExt, $valid_extensions))
 		{			
@@ -46,7 +60,7 @@ if(isset($_POST['btn_update']))
 			{
 				//eliminamos la imagen previa almacenada
 				unlink($upload_dir.$edit_row['imagen']);
-				//subimos la nueva imagen
+				//subimos la nueva imagen del directorio temporal al directorio de subida
 				move_uploaded_file($tmp_dir,$upload_dir.$imagen);
 			}
 			else

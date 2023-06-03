@@ -32,21 +32,28 @@ require_once 'conexion.php';
 				
 				$stmt = $dbh->prepare('SELECT * FROM coches ORDER BY id DESC');
 				$stmt->execute();
+				$coches = $stmt->fetchAll();
 				
-				if($stmt->rowCount() > 0)
+				if(count($coches) > 0)
 				{
-					while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+					for ($i = 0; $i < count($coches); $i++)
 					{
-						//Importa variables desde un array a la tabla de símbolos actual (extrae los pares clave-valor)
+						//Convierte cada elemento de un array en variables. Toma los índices asociativos de dicho array para nombrar las variables 
 						//extract($row);
+						$columns=4;
+						if($i % $columns === 0 && $i > 0) { //si hay más de 3 columnas, pasamos a la siguiente fila
+							echo '</div> 
+							<div class="row p-3">';
+						}
+
 				?>
 						<div class="col-xs-3">
-							<p class="page-header"><?php echo $row['marca']."&nbsp;/&nbsp;".$row['modelo']; ?></p>
-							<img src="./imagenes/<?php echo $row['imagen']; ?>" class="img-fluid img-thumbnail" width="240px" height="240px"/>
+							<h1 class="page-header"><?php echo $coches[$i]['marca']."&nbsp;/&nbsp;". $coches[$i]['modelo']; ?></h1>
+							<img src="./imagenes/<?php echo  $coches[$i]['imagen']; ?>" class="img-fluid img-thumbnail" width="240px" height="240px"/>
 							<p class="page-header"> 
 								<span> 
-									<a class="btn btn-info" href="./editar.php?edit_id=<?php echo $row['id']; ?>" title="click for edit" onclick="return confirm('¿Esta seguro de editar el archivo ?')"><span class="glyphicon glyphicon-edit"></span> Editar</a> 
-									<a class="btn btn-danger" href="./eliminar.php?delete_id=<?php echo $row['id']; ?>" title="click for delete" onclick="return confirm('¿Esta seguro de eliminar el archivo?')"><span class="glyphicon glyphicon-remove-circle"></span> Borrar</a> 
+									<a class="btn btn-info" href="./editar.php?edit_id=<?php echo  $coches[$i]['id']; ?>" title="click for edit" onclick="return confirm('¿Esta seguro de editar el archivo ?')"><span class="glyphicon glyphicon-edit"></span> Editar</a> 
+									<a class="btn btn-danger" href="./eliminar.php?delete_id=<?php echo  $coches[$i]['id']; ?>" title="click for delete" onclick="return confirm('¿Esta seguro de eliminar el archivo?')"><span class="glyphicon glyphicon-remove-circle"></span> Borrar</a> 
 								</span> 
 							</p>
 						</div>
